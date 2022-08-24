@@ -1,9 +1,14 @@
-package bubble.test.ex03;
+package bubble.test.ex04;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import lombok.Getter;
+import lombok.Setter;
+
 // class Player -> new 가능한 애들!! 게임에 존재할 수 있음. (추상메서드를 가질 수 없다.)
+@Getter
+@Setter
 public class Player extends JLabel implements Moveable {
 
 	// 위치 상태
@@ -45,16 +50,38 @@ public class Player extends JLabel implements Moveable {
 	// 이벤트 핸들러
 	@Override
 	public void left() {
-		setIcon(playerL);
-		x = x - 10;
-		setLocation(x, y);
+		System.out.println("left 쓰레드 생성");
+		left = true;
+		new Thread(() -> {
+			while(left) { // left 버튼을 누르면 left가 true가 되니까 while문 계속 실행
+				setIcon(playerL);
+				x = x - 1;
+				setLocation(x, y);
+				try {
+					Thread.sleep(10); // 0.01초
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	@Override
 	public void right() {
-		setIcon(playerR);
-		x = x + 10;
-		setLocation(x, y);
+		System.out.println("right");
+		right = true;
+		new Thread(() -> {
+			while(right) {
+				setIcon(playerR);
+				x = x + 1;
+				setLocation(x, y);
+				try {
+					Thread.sleep(10); // 0.01초
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	@Override
