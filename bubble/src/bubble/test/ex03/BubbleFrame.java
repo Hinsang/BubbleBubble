@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 public class BubbleFrame extends JFrame{
 	
 	private JLabel backgroundMap;
-	private Player player;	// Player 객체
+	private Player player;	// Player 객체(클래스)
 	
 	public BubbleFrame() {
 		initObject();
