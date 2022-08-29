@@ -1,4 +1,4 @@
-package bubble.test.ex05;
+package bubble.test.ex07;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,6 +20,10 @@ public class Player extends JLabel implements Moveable {
 	private boolean right;
 	private boolean up;
 	private boolean down;
+	
+	// 벽에 충돌한 상태
+	private boolean leftWallCrash;
+	private boolean rightWallCrash;
 
 	// 플레이어 속도 상태
 	private final int SPEED = 4;
@@ -30,6 +34,7 @@ public class Player extends JLabel implements Moveable {
 	public Player() {
 		initObject();
 		initSetting();
+		initBackgroundPlayerService();
 	}
 
 	private void initObject() {
@@ -38,17 +43,25 @@ public class Player extends JLabel implements Moveable {
 	}
 
 	private void initSetting() {
-		x = 55;
+		x = 80;
 		y = 535;
 
 		left = false;
 		right = false;
 		up = false;
 		down = false;
+		
+		leftWallCrash = false;
+		rightWallCrash = false;
 
 		setIcon(playerR);
 		setSize(50, 50);
 		setLocation(x, y);
+	}
+	
+	private void initBackgroundPlayerService() {
+		new Thread(new BackgroundPlayerService(this)).start(); // BackgroundPlayerService 타입 자체가 Runnable 타입이라서 넝을 수 있다.
+		// 이 파일 자체가 Player 파일이므로 this로 넘겨준다.
 	}
 
 	// 이벤트 핸들러
